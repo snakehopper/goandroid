@@ -1,4 +1,4 @@
-package go-android-tools
+package goandroid
 
 import (
 	"encoding/xml"
