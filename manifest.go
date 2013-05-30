@@ -250,7 +250,7 @@ type IntentFilter struct {
 	Icon     string    `xml:"http://schemas.android.com/apk/res/android icon,attr,omitempty"`
 	Label    string    `xml:"http://schemas.android.com/apk/res/android label,attr,omitempty"`
 	Priority string    `xml:"http://schemas.android.com/apk/res/android priority,attr,omitempty"`
-	Action   Action    `xml:"action"`
+	Action   []Action  `xml:"action"`
 	Category *Category `xml:"category,omitempty"`
 	Data     *Data     `xml:"data,omitempty"`
 }
