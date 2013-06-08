@@ -59,6 +59,11 @@ func (res *Resources) SetString(name, value string) *Resources {
 	return res
 }
 
+func (res *Resources) AddString(name, value string) *Resources {
+	res.Strings = append(res.Strings, String{Value: value, Name: name})
+	return res
+}
+
 func (res *Resources) SetColor(name, value string) *Resources {
 	for index, _ := range res.Colors {
 		if name == res.Colors[index].Name {
@@ -80,7 +85,7 @@ func (res *Resources) ExportResourceXml(filepath string) error {
 		log.Fatal(filepath, " is not a valid file")
 	}
 
-	b, err := xml.MarshalIndent(&res, "  ", "    ")
+	b, err := xml.MarshalIndent(&res, "", "    ")
 	//b, err := xml.Marshal(&res)
 	if err != nil {
 		log.Fatal(err)
