@@ -1,9 +1,22 @@
 package goandroid
 
 import (
-	"log"
 	"testing"
 )
+
+var (
+	manifest *Manifest
+
+	filepath string
+
+	output string
+)
+
+func setup() {
+	filepath = "material"
+	output = filepath + "/output_AndroidManifest.xml"
+	manifest, _ = NewAndroidManifest(filepath)
+}
 
 func TestNewAndroidManifest(t *testing.T) {
 	var filepath = "material"
@@ -12,21 +25,32 @@ func TestNewAndroidManifest(t *testing.T) {
 		t.Fatal("read manifest", err)
 	}
 
-	var pname = "com.example.test.name"
-
-	manifest = manifest.SetPackageName(pname, "35")
-	if manifest.Package != pname {
-		t.Fatal("setPackageName failed.")
+	var want = "com.google.android.apps.iosched"
+	if want != manifest.Package {
+		t.Fatalf("NewAndroidManifest package want %v, but %v\n", want, manifest.Package)
 	}
-	log.Println("Permissions:\n", manifest.Permissions)
-	log.Println("UsePermissions:\n", manifest.UsePermissions)
-	log.Println("Receiver:\n", manifest.Application.Receiver)
-	log.Println("Activity:\n", manifest.Application.Activities)
-	log.Println("Provider:\n", manifest.Application.Providers)
+}
 
-	err = manifest.ExportAndroidManifest("material/output_AndroidManifest.xml")
-	if err != nil {
-		t.Fatal(err)
+func TestManifest_SetPackageName(t *testing.T) {
+	setup()
+
+	var want = "com.example.test.name"
+
+	manifest = manifest.SetPackageName(want)
+	if want != manifest.Package {
+		t.Fatalf("SetPackageName want %v, but %v\n", want, manifest.Package)
+	}
+}
+
+func TestManifest_ExportAndroidManifest(t *testing.T) {
+	setup()
+
+	if err := manifest.Export(output); err != nil {
+		t.Fatal("ExportAndroidManifest error: ", err)
+	}
+
+	if om, _ := NewAndroidManifest(output); om.Package != manifest.Package {
+		t.Fatalf("Export want %v, but actual %v\n", manifest.Package, om.Package)
 	}
 }
 

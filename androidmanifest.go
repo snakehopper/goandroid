@@ -34,22 +34,20 @@ func NewAndroidManifest(filepath string) (*Manifest, error) {
 	return &manifest, err
 }
 
-func (m *Manifest) ExportAndroidManifest(filepath string) error {
-	f, err := os.Stat(filepath)
-	if err != nil {
-		log.Fatal(err)
+func (m *Manifest) Export(filepath string) error {
+	if f, err := os.Stat(filepath); err == nil {
+		if f.IsDir() {
+			filepath = path.Join(filepath, "AndroidManifest.xml")
+		}
 	}
-	if f.IsDir() {
-		filepath = path.Join(filepath, "AndroidManifest.xml")
-	}
-	var dir, file = path.Split(filepath)
-	log.Println("dir:", dir, " file:", file)
 
 	b, err := xml.MarshalIndent(&m, "  ", "    ")
 	if err != nil {
 		log.Fatal(err)
 		return err
 	}
+
+	var dir, file = path.Split(filepath)
 	err = ioutil.WriteFile(path.Join(dir, file), b, 0644)
 	if err != nil {
 		log.Fatal(err)
