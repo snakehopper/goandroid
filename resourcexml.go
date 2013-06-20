@@ -15,8 +15,9 @@ type Resources struct {
 }
 
 type String struct {
-	Value string `xml:",innerxml"`
-	Name  string `xml:"name,attr"`
+	Value  string `xml:",innerxml"`
+	Name   string `xml:"name,attr"`
+	Format string `xml:"formatted,attr,omitempty"`
 }
 
 type Color struct {
