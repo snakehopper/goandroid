@@ -1,6 +1,7 @@
 package goandroid
 
 import (
+	"os"
 	"testing"
 )
 
@@ -52,25 +53,6 @@ func TestManifest_ExportAndroidManifest(t *testing.T) {
 	if om, _ := NewAndroidManifest(output); om.Package != manifest.Package {
 		t.Fatalf("Export want %v, but actual %v\n", manifest.Package, om.Package)
 	}
-}
 
-func TestNewResourceXml(t *testing.T) {
-	var stringPath = "material/strings.xml"
-	var appName = "呵呵>App"
-	resString, err := NewResourceXml(stringPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	var isWedding = false
-	resString = resString.SetString("app_name", appName)
-	resString = resString.SetString("content_authority", "com.example.name")
-	if isWedding {
-		resString = resString.SetString("picture_dir", "享幸福")
-	} else {
-		resString = resString.SetString("picture_dir", "Miiroad")
-	}
-	err = resString.ExportResourceXml(stringPath)
-	if err != nil {
-		t.Fatal(err)
-	}
+	os.Remove(output)
 }

@@ -3,6 +3,7 @@ package goandroid
 import (
 	"bytes"
 	"encoding/xml"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -78,16 +79,13 @@ func (res *Resources) SetColor(name, value string) *Resources {
 }
 
 func (res *Resources) ExportResourceXml(filepath string) error {
-	f, err := os.Stat(filepath)
-	if err != nil {
-		log.Fatal(err)
-	}
-	if f.IsDir() {
-		log.Fatal(filepath, " is not a valid file")
+	if f, err := os.Stat(filepath); err == nil {
+		if f.IsDir() {
+			return fmt.Errorf("%s is not a valid file", filepath)
+		}
 	}
 
 	b, err := xml.MarshalIndent(&res, "", "    ")
-	//b, err := xml.Marshal(&res)
 	if err != nil {
 		log.Fatal(err)
 		return err
