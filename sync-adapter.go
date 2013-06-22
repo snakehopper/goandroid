@@ -53,7 +53,7 @@ func NewSyncAdapter(filepath string) (*SyncAdapter, error) {
 	return &res, err
 }
 
-func (res *SyncAdapter) ExportSyncAdapter(filepath string) error {
+func (res *SyncAdapter) Export(filepath string) error {
 	if f, err := os.Stat(filepath); err == nil {
 		if f.IsDir() {
 			return fmt.Errorf("%s is not a valid file", filepath)

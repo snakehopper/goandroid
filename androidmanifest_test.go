@@ -43,11 +43,11 @@ func TestManifest_SetPackageName(t *testing.T) {
 	}
 }
 
-func TestManifest_ExportAndroidManifest(t *testing.T) {
+func TestManifest_Export(t *testing.T) {
 	setup()
 
 	if err := manifest.Export(output); err != nil {
-		t.Fatal("ExportAndroidManifest error: ", err)
+		t.Fatal("Export error: ", err)
 	}
 
 	if om, _ := NewAndroidManifest(output); om.Package != manifest.Package {

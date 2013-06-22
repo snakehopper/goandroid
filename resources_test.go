@@ -18,24 +18,24 @@ func setup_res() {
 	b := []byte("<resources>\n<string name=\"app_name\">launcher</string>\n<string name=\"hello\">hello world</string>\n<color name=\"test_color\">#FFFFFF</color>\n</resources>")
 	ioutil.WriteFile(res_path, b, 0644)
 
-	res, _ = NewResourceXml(res_path)
+	res, _ = NewResources(res_path)
 }
 
 func teardown_res() {
 	os.Remove(res_path)
 }
 
-func TestNewResourceXml(t *testing.T) {
+func TestNewResources(t *testing.T) {
 	setup_res()
 
-	r, err := NewResourceXml(res_path)
+	r, err := NewResources(res_path)
 	if err != nil {
 		t.Fatal("read resources", err)
 	}
 
 	var want = "resources"
 	if want != r.XMLName.Local {
-		t.Fatalf("NewResourceXml XMLName want %v, but %v\n", want, r.XMLName.Local)
+		t.Fatalf("NewResources XMLName want %v, but %v\n", want, r.XMLName.Local)
 	}
 
 	teardown_res()
@@ -88,17 +88,17 @@ func TestResources_AddString(t *testing.T) {
 	teardown_res()
 }
 
-func TestManifest_ExportResourceXml(t *testing.T) {
+func TestResources_Export(t *testing.T) {
 	setup_res()
 
 	output := "material/str_o.xml"
-	if err := res.ExportResourceXml(output); err != nil {
-		t.Fatal("ExportResourceXml error: ", err)
+	if err := res.Export(output); err != nil {
+		t.Fatal("Export error: ", err)
 	}
 
 	_, err := os.Stat(output)
 	if err != nil {
-		t.Fatal("ExportResourceXml error:", err)
+		t.Fatal("Export error:", err)
 	}
 	os.Remove(output)
 	teardown_res()

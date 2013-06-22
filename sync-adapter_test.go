@@ -41,17 +41,17 @@ func TestNewSyncAdapter(t *testing.T) {
 	teardown_sync()
 }
 
-func TestManifest_ExportSyncAdapter(t *testing.T) {
+func TestSyncAdapter_Export(t *testing.T) {
 	setup_sync()
 
 	output := "material/sync_o.xml"
-	if err := sync.ExportSyncAdapter(output); err != nil {
-		t.Fatal("ExportSyncAdapter error: ", err)
+	if err := sync.Export(output); err != nil {
+		t.Fatal("Export error: ", err)
 	}
 
 	_, err := os.Stat(output)
 	if err != nil {
-		t.Fatal("ExportSyncAdapter error:", err)
+		t.Fatal("Export error:", err)
 	}
 	os.Remove(output)
 	teardown_sync()

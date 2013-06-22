@@ -26,7 +26,7 @@ type Color struct {
 	Name  string `xml:"name,attr"`
 }
 
-func NewResourceXml(filepath string) (*Resources, error) {
+func NewResources(filepath string) (*Resources, error) {
 	f, err := os.Stat(filepath)
 	if err != nil {
 		log.Fatal(err)
@@ -78,7 +78,7 @@ func (res *Resources) SetColor(name, value string) *Resources {
 	return res
 }
 
-func (res *Resources) ExportResourceXml(filepath string) error {
+func (res *Resources) Export(filepath string) error {
 	if f, err := os.Stat(filepath); err == nil {
 		if f.IsDir() {
 			return fmt.Errorf("%s is not a valid file", filepath)
